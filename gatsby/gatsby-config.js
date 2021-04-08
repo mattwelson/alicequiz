@@ -1,3 +1,7 @@
+const dotenv= require( 'dotenv')
+
+dotenv.config()
+
 module.exports = {
   siteMetadata: {
     title: 'quiz.aliceadventuring.com',
@@ -8,6 +12,9 @@ module.exports = {
       options: {
         projectId: 'ishvk4h1',
         dataset: 'production',
+        token: process.env.SANITY_TOKEN,
+        watchMode: true,
+        overlayDrafts: true
       },
     },
     'gatsby-plugin-styled-components',
