@@ -1,8 +1,8 @@
-import { MdLibraryBooks as icon } from "react-icons/md"
+import { MdQuestionAnswer as icon } from "react-icons/md"
 
 export default {
-  name: "post",
-  title: "Posts",
+  name: "question",
+  title: "Question",
   type: "document",
   icon,
   fields: [
@@ -10,24 +10,11 @@ export default {
       name: "title",
       tile: "Title",
       type: "string",
-      description: "Title of the blog post",
+      description: "Text for question (add question mark)",
     },
     {
-      name: "url",
-      title: "URL",
-      type: "url",
-    },
-    {
-      name: "image",
-      title: "Image",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
-    },
-    {
-      name: "tags",
-      title: "Tags",
+      name: "answers",
+      title: "Answers",
       type: "array",
       of: [
         {
