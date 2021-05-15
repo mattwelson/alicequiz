@@ -1,4 +1,4 @@
-const dotenv= require( 'dotenv')
+const dotenv = require('dotenv')
 
 dotenv.config()
 
@@ -10,11 +10,11 @@ module.exports = {
     {
       resolve: 'gatsby-source-sanity',
       options: {
-        projectId: 'ishvk4h1',
-        dataset: 'production',
+        projectId: process.env.SANITY_PROJECTID,
+        dataset: process.env.SANITY_DATASET,
         token: process.env.SANITY_TOKEN,
         watchMode: true,
-        overlayDrafts: true
+        overlayDrafts: true,
       },
     },
     'gatsby-plugin-styled-components',
