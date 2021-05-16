@@ -43,5 +43,11 @@ export default {
         layout: "tags",
       },
     },
+    {
+      name: "description",
+      title: "Description",
+      type: "array",
+      of: [{ type: "block" }],
+    },
   ],
 }

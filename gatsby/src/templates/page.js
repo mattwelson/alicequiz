@@ -1,11 +1,12 @@
-import React from 'react'
-import { graphql, Link } from 'gatsby'
+import React from "react"
+import { graphql, Link } from "gatsby"
 
 import {
   filterPostsWithMatchingTags,
   filterAnswersBasedOnPosts,
-} from '../../util/page-helpers'
-import PostDisplay from '../components/PostDisplay'
+} from "../../util/page-helpers"
+import PostDisplay from "../components/PostDisplay"
+import Layout from "../components/Layout"
 
 export default function QuestionPage({ data, pageContext }) {
   console.log({ pageContext, data })
@@ -17,32 +18,34 @@ export default function QuestionPage({ data, pageContext }) {
   const pagePosts = filterPostsWithMatchingTags(data.posts.nodes, pageTags)
   console.log({ pagePosts })
 
-  // if no question then show the posts that match the filters!
+  // if no current question then show the posts that match the filters!
   // filter posts down and show results!
   if (!question)
+    // TODO: Display slightly differently if more than one?
+    // TODO: What if there's none?!
     return (
-      <div>
-        {pagePosts.map((p) => (
-          <PostDisplay post={p}></PostDisplay>
+      <Layout>
+        {pagePosts.map((post) => (
+          <PostDisplay {...post} key={post.title}></PostDisplay>
         ))}
-      </div>
+      </Layout>
     )
 
   // determine which answers still have posts at the end
   const filteredAnswers = filterAnswersBasedOnPosts(question.answers, pagePosts)
 
-  // if only one then redirect to that answer
+  // TODO: if only one then redirect to that answer
   console.log({ filteredAnswers })
 
   return (
-    <div>
+    <Layout>
       <h2>{question.title}</h2>
       {filteredAnswers.map(({ slug, title }) => (
         <Link to={slug.current} key={slug.current}>
           <h3>{title}</h3>
         </Link>
       ))}
-    </div>
+    </Layout>
   )
 }
 
@@ -69,6 +72,11 @@ export const pageQuery = graphql`
             current
           }
         }
+        image {
+          ...ImageWithPreview
+        }
+        url
+        _rawDescription(resolveReferences: { maxDepth: 5 })
       }
     }
   }

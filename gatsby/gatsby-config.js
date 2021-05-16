@@ -1,14 +1,14 @@
-const dotenv = require('dotenv')
+const dotenv = require("dotenv")
 
 dotenv.config()
 
 module.exports = {
   siteMetadata: {
-    title: 'quiz.aliceadventuring.com',
+    title: "quiz.aliceadventuring.com",
   },
   plugins: [
     {
-      resolve: 'gatsby-source-sanity',
+      resolve: "gatsby-source-sanity",
       options: {
         projectId: process.env.SANITY_PROJECTID,
         dataset: process.env.SANITY_DATASET,
@@ -17,24 +17,37 @@ module.exports = {
         overlayDrafts: true,
       },
     },
-    'gatsby-plugin-styled-components',
-    'gatsby-plugin-image',
     {
-      resolve: 'gatsby-plugin-google-analytics',
+      resolve: "gatsby-plugin-sanity-image",
       options: {
-        trackingId: 'G-EESBPWDYR3',
+        projectId: process.env.SANITY_PROJECTID,
+        dataset: process.env.SANITY_DATASET,
       },
     },
-    'gatsby-plugin-react-helmet',
-    'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
+    "gatsby-plugin-styled-components",
+    "gatsby-plugin-image",
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: "gatsby-plugin-google-analytics",
       options: {
-        name: 'images',
-        path: './src/images/',
+        trackingId: "G-EESBPWDYR3",
       },
-      __key: 'images',
+    },
+    "gatsby-plugin-react-helmet",
+    "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "images",
+        path: "./src/images/",
+      },
+      __key: "images",
+    },
+    {
+      resolve: `gatsby-plugin-typography`,
+      options: {
+        pathToConfigModule: `util/typography`,
+      },
     },
   ],
 }
