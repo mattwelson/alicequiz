@@ -3,6 +3,11 @@ import SanityImage from "gatsby-plugin-sanity-image"
 import React from "react"
 import { Link } from "gatsby"
 import BlockContent from "@sanity/block-content-to-react"
+import styled from "styled-components"
+
+const LinkStyles = styled.div`
+  display: grid;
+`
 
 export default function PostDisplay({ title, image, url, _rawDescription }) {
   return (
@@ -12,10 +17,13 @@ export default function PostDisplay({ title, image, url, _rawDescription }) {
       </a>
       <SanityImage {...image} width={500} height={300} alt={title} />
       {_rawDescription && <BlockContent blocks={_rawDescription} />}
-      <a href={url} target='_blank' rel='noreferrer nofollow'>
-        Read post
-      </a>
-      <Link to='/'>Start again</Link>
+
+      <LinkStyles>
+        <a href={url} target='_blank' rel='noreferrer nofollow'>
+          Read post
+        </a>
+        <Link to='/'>Start again</Link>
+      </LinkStyles>
     </div>
   )
 }

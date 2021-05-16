@@ -38,7 +38,7 @@ export default function QuestionPage({ data, pageContext }) {
   console.log({ filteredAnswers })
 
   return (
-    <Layout>
+    <Layout narrow>
       <h2>{question.title}</h2>
       {filteredAnswers.map(({ slug, title }) => (
         <Link to={slug.current} key={slug.current}>

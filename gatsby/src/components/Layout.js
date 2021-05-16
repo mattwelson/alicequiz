@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 const LayoutStyles = styled.div`
   width: 90%;
-  max-width: 70rem;
+  max-width: ${({ narrow }) => (narrow ? "20rem" : "40rem")};
   display: grid;
   margin: 2rem auto 0;
 `
