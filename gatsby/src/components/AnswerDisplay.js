@@ -7,10 +7,15 @@ const TextStyles = styled.h3`
   font-family: "Pacifico";
   font-weight: normal;
 
-  background: #059669;
+  background-color: #059669;
+  transition: background-color 0.2s linear;
   padding: 1rem;
   margin: 0;
   text-align: center;
+
+  a:hover & {
+    background-color: #10b981;
+  }
 `
 
 const StyledLink = styled((props) => <Link {...props} />)`
