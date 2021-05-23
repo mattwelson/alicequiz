@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql, Link } from "gatsby"
+import { graphql, navigate } from "gatsby"
 
 import {
   filterPostsWithMatchingTags,
@@ -7,6 +7,7 @@ import {
 } from "../../util/page-helpers"
 import PostDisplay from "../components/PostDisplay"
 import Layout from "../components/Layout"
+import AnswerDisplay from "../components/AnswerDisplay"
 
 export default function QuestionPage({ data, pageContext }) {
   console.log({ pageContext, data })
@@ -22,7 +23,7 @@ export default function QuestionPage({ data, pageContext }) {
   // filter posts down and show results!
   if (!question)
     // TODO: Display slightly differently if more than one?
-    // TODO: What if there's none?!
+    // TODO: What if there's none?! Shouldn't be possible but untested
     return (
       <Layout>
         {pagePosts.map((post) => (
@@ -34,16 +35,16 @@ export default function QuestionPage({ data, pageContext }) {
   // determine which answers still have posts at the end
   const filteredAnswers = filterAnswersBasedOnPosts(question.answers, pagePosts)
 
-  // TODO: if only one then redirect to that answer
+  // if only one then redirect to that answer
   console.log({ filteredAnswers })
+  if (filteredAnswers.length === 1)
+    return navigate(filteredAnswers[0].slug.current)
 
   return (
     <Layout narrow>
       <h2>{question.title}</h2>
-      {filteredAnswers.map(({ slug, title }) => (
-        <Link to={slug.current} key={slug.current}>
-          <h3>{title}</h3>
-        </Link>
+      {filteredAnswers.map((answer) => (
+        <AnswerDisplay {...answer} key={answer.slug.current} />
       ))}
     </Layout>
   )
@@ -59,6 +60,9 @@ export const pageQuery = graphql`
             title
             slug {
               current
+            }
+            image {
+              ...ImageWithPreview
             }
           }
         }

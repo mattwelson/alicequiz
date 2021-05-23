@@ -11,5 +11,6 @@ const typography = new Typography({
     "sans-serif",
   ],
   bodyFontFamily: ["Georgia", "serif"],
+  googleFonts: [{ name: "Pacifico", styles: ["400"] }],
 })
 export default typography

@@ -1,6 +1,6 @@
 import React from "react"
 import { Helmet } from "react-helmet"
-import styled from "styled-components"
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components"
 
 const LayoutStyles = styled.div`
   width: 90%;
@@ -9,13 +9,35 @@ const LayoutStyles = styled.div`
   margin: 2rem auto 0;
 `
 
+const theme = {
+  color: {
+    bg: "#111827",
+    text: "white",
+    link: "#DBEAFE",
+  },
+}
+
+const GlobalStyles = createGlobalStyle`
+body {
+  background: ${({ theme }) => theme.color.bg};
+  color: ${({ theme }) => theme.color.text};
+}
+
+a {
+  color: ${({ theme }) => theme.color.link};
+}
+`
+
 export default function Layout({ children }) {
   return (
-    <LayoutStyles>
-      <Helmet>
-        <title>Alice's Adventuring Quiz</title>
-      </Helmet>
-      {children}
-    </LayoutStyles>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <LayoutStyles>
+        <Helmet>
+          <title>Alice's Adventuring Quiz</title>
+        </Helmet>
+        {children}
+      </LayoutStyles>
+    </ThemeProvider>
   )
 }
