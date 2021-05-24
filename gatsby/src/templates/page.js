@@ -1,6 +1,6 @@
 import React from "react"
-import { graphql, navigate } from "gatsby"
-
+import { graphql } from "gatsby"
+import { Redirect } from "@reach/router"
 import {
   filterPostsWithMatchingTags,
   filterAnswersBasedOnPosts,
@@ -10,14 +10,14 @@ import Layout from "../components/Layout"
 import AnswerDisplay from "../components/AnswerDisplay"
 
 export default function QuestionPage({ data, pageContext }) {
-  console.log({ pageContext, data })
+  //console.log({ pageContext, data })
   const [settings] = data.settings.nodes
   const question = settings.questions[pageContext.tags.length]
   const pageTags = pageContext.tags
 
   // filter posts on page tag
   const pagePosts = filterPostsWithMatchingTags(data.posts.nodes, pageTags)
-  console.log({ pagePosts })
+  //console.log({ pagePosts })
 
   // if no current question then show the posts that match the filters!
   // filter posts down and show results!
@@ -37,10 +37,9 @@ export default function QuestionPage({ data, pageContext }) {
 
   // TODO: change this so the redirect is not needed - flashes at the moment
   // if only one then redirect to that answer
-  console.log({ filteredAnswers })
+  //console.log({ filteredAnswers })
   if (filteredAnswers.length === 1) {
-    navigate(filteredAnswers[0].slug.current)
-    return null
+    return <Redirect to={filteredAnswers[0].slug.current} />
   }
 
   return (
