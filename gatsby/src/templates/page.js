@@ -35,10 +35,13 @@ export default function QuestionPage({ data, pageContext }) {
   // determine which answers still have posts at the end
   const filteredAnswers = filterAnswersBasedOnPosts(question.answers, pagePosts)
 
+  // TODO: change this so the redirect is not needed - flashes at the moment
   // if only one then redirect to that answer
   console.log({ filteredAnswers })
-  if (filteredAnswers.length === 1)
-    return navigate(filteredAnswers[0].slug.current)
+  if (filteredAnswers.length === 1) {
+    navigate(filteredAnswers[0].slug.current)
+    return null
+  }
 
   return (
     <Layout narrow>
