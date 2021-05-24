@@ -40,7 +40,9 @@ export default function QuestionPage({ data, pageContext, location }) {
   //console.log({ filteredAnswers })
   if (filteredAnswers.length === 1) {
     return (
-      <Redirect to={`${location.pathname}${filteredAnswers[0].slug.current}`} />
+      <Redirect
+        to={`${location.pathname}/${filteredAnswers[0].slug.current}`}
+      />
     )
   }
 
