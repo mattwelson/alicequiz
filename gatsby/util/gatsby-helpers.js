@@ -1,5 +1,5 @@
-exports.generatePageInfoFromQuestions = function (sortedQuestions) {
-  if (!sortedQuestions?.length > 0) return []
+exports.generatePageInfoFromQuestions = function (sortedQuestions = []) {
+  if (!sortedQuestions.length > 0) return []
 
   const answerTree = generateAnswerMapFromList(
     generateAnswerListFromQuestions(sortedQuestions)
@@ -9,8 +9,8 @@ exports.generatePageInfoFromQuestions = function (sortedQuestions) {
   return answerTree.map((tags) => ({ url: arrayToUrl(tags), tags }))
 }
 
-function generateAnswerListFromQuestions(sortedQuestions) {
-  if (!sortedQuestions?.length > 0) return []
+function generateAnswerListFromQuestions(sortedQuestions = []) {
+  if (!sortedQuestions.length > 0) return []
 
   return sortedQuestions.map(({ answers }) =>
     answers.map(({ slug: { current } }) => current)
@@ -19,8 +19,8 @@ function generateAnswerListFromQuestions(sortedQuestions) {
 
 exports.generateAnswerListFromQuestions = generateAnswerListFromQuestions
 
-function generateAnswerMapFromList(nodes) {
-  if (!nodes?.length) return []
+function generateAnswerMapFromList(nodes = []) {
+  if (!nodes.length) return []
   let result = [],
     previousNodes = [[]]
   nodes.forEach((answers) => {
@@ -37,7 +37,7 @@ function generateAnswerMapFromList(nodes) {
 exports.generateAnswerMapFromList = generateAnswerMapFromList
 
 function arrayToUrl(parts) {
-  return `/${parts.join("/")}`
+  return `/${parts.join('/')}`
 }
 
 exports.arrayToUrl = arrayToUrl
