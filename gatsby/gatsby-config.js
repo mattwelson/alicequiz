@@ -32,6 +32,7 @@ module.exports = {
         trackingId: "G-EESBPWDYR3",
       },
     },
+    `gatsby-plugin-gatsby-cloud`,
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",

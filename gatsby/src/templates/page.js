@@ -9,7 +9,7 @@ import PostDisplay from "../components/PostDisplay"
 import Layout from "../components/Layout"
 import AnswerDisplay from "../components/AnswerDisplay"
 
-export default function QuestionPage({ data, pageContext }) {
+export default function QuestionPage({ data, pageContext, location }) {
   //console.log({ pageContext, data })
   const [settings] = data.settings.nodes
   const question = settings.questions[pageContext.tags.length]
@@ -39,7 +39,9 @@ export default function QuestionPage({ data, pageContext }) {
   // if only one then redirect to that answer
   //console.log({ filteredAnswers })
   if (filteredAnswers.length === 1) {
-    return <Redirect to={filteredAnswers[0].slug.current} />
+    return (
+      <Redirect to={`${location.pathname}${filteredAnswers[0].slug.current}`} />
+    )
   }
 
   return (
