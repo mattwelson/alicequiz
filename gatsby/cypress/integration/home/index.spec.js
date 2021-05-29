@@ -7,6 +7,6 @@ describe('Home page', () => {
      * TODO: make this test work
      */
     it('Contains the Question text', () => {
-        cy.findByText(/Do you/).should('include.text', 'you want a North Island or South Island')
+        cy.findByText(/Do you/).should('include.text', /you want a North Island or South Island/)
     })
 })
