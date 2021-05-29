@@ -1,6 +1,7 @@
 const {
   filterPostsWithMatchingTags,
   filterAnswersBasedOnPosts,
+  findQuestions
 } = require('./page-helpers')
 
 describe('filterPostsWithMatchingTags', () => {
@@ -85,5 +86,67 @@ describe('filterAnswersBasedOnPosts', () => {
     )
 
     expect(result).toHaveLength(0)
+  })
+})
+
+const fakeSlugs = (slugs) => slugs.map(current => ({ slug: { current } }))
+describe('findQuestions', () => {
+  const questions = [{
+    answers: fakeSlugs(['north-island', 'south-island'])
+  },
+  {
+    answers: fakeSlugs(['day-walk', 'overnight'])
+  },
+  {
+    answers: fakeSlugs(['easy', 'hard'])
+  },
+  {
+    answers: fakeSlugs(['lakes', 'mountains'])
+  }]
+  const posts = [
+    {
+      tags: fakeSlugs(['north-island', 'day-walk', 'easy', 'lakes'])
+    },
+    {
+      tags: fakeSlugs(['north-island', 'overnight', 'easy', 'lakes'])
+    },
+    {
+      tags: fakeSlugs(['north-island', 'day-walk', 'easy', 'mountains'])
+    },
+    {
+      tags: fakeSlugs(['north-island', 'day-walk', 'hard', 'lakes'])
+    },
+    {
+      tags: fakeSlugs(['north-island', 'day-walk', 'hard', 'mountains'])
+    },
+    {
+      tags: fakeSlugs(['south-island', 'day-walk', 'hard', 'lakes'])
+    },
+    {
+      tags: fakeSlugs(['south-island', 'day-walk', 'hard', 'mountains'])
+    },
+  ]
+
+  it('Selects first question if no answers yet', () => {
+    const result = findQuestions(questions, [], posts)
+    expect(result.question.answers[0].slug.current).toBe('north-island')
+    expect(result.posts).toHaveLength(7)
+  })
+
+  it('Selects second question if first chosen', () => {
+    const result = findQuestions(questions, ['north-island'], posts)
+    expect(result.question.answers[0].slug.current).toBe('day-walk')
+    expect(result.posts).toHaveLength(5)
+  })
+
+  it('Returns match posts and no questions', () => {
+    const result = findQuestions(questions, ['north-island', 'day-walk', 'lakes'], posts)
+    expect(result.question).toBeUndefined()
+    expect(result.posts).toHaveLength(2)
+  })
+
+  it('Can skip a question', () => {
+    const result = findQuestions(questions, ['north-island', 'easy'], posts)
+    expect(result.question.answers[0].slug.current).toBe('lakes')
   })
 })

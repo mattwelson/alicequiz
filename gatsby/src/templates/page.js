@@ -2,8 +2,8 @@ import React from "react"
 import { graphql } from "gatsby"
 import { Redirect } from "@reach/router"
 import {
-  filterPostsWithMatchingTags,
   filterAnswersBasedOnPosts,
+  findQuestions,
 } from "../../util/page-helpers"
 import PostDisplay from "../components/PostDisplay"
 import Layout from "../components/Layout"
@@ -12,12 +12,11 @@ import AnswerDisplay from "../components/AnswerDisplay"
 export default function QuestionPage({ data, pageContext, location }) {
   //console.log({ pageContext, data })
   const [settings] = data.settings.nodes
-  const question = settings.questions[pageContext.tags.length]
   const pageTags = pageContext.tags
 
-  // filter posts on page tag
-  const pagePosts = filterPostsWithMatchingTags(data.posts.nodes, pageTags)
-  //console.log({ pagePosts })
+  const { posts, question } = findQuestions(settings.questions, pageTags, data.posts.nodes)
+
+  //console.log({ posts })
 
   // if no current question then show the posts that match the filters!
   // filter posts down and show results!
@@ -26,18 +25,16 @@ export default function QuestionPage({ data, pageContext, location }) {
     // TODO: What if there's none?! Shouldn't be possible but untested
     return (
       <Layout>
-        {pagePosts.map((post) => (
+        {posts.map((post) => (
           <PostDisplay {...post} key={post.title}></PostDisplay>
         ))}
       </Layout>
     )
 
   // determine which answers still have posts at the end
-  const filteredAnswers = filterAnswersBasedOnPosts(question.answers, pagePosts)
+  const filteredAnswers = filterAnswersBasedOnPosts(question.answers, posts)
 
-  // TODO: change this so the redirect is not needed - flashes at the moment
-  // if only one then redirect to that answer
-  //console.log({ filteredAnswers })
+  // TODO: This should no longer be needed, with the new findQuestion method - verify and test that
   if (filteredAnswers.length === 1) {
     return (
       <Redirect
